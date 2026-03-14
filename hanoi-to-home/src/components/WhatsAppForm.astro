@@ -1,0 +1,68 @@
+---
+---
+<section id='book' class='py-16 bg-white'>
+  <div class='max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div class='mb-8 text-center'>
+      <span class='inline-block bg-green-100 text-green-800 text-sm font-semibold px-4 py-1.5 rounded-full'>🗣️ Classes & Experiences available in English & Vietnamese</span>
+    </div>
+    <h2 class='text-3xl font-bold text-center text-orange-900 mb-4'>Book Your Experience</h2>
+    <p class='text-center text-gray-600 mb-10'>Fill out this form to check availability. I'll contact you via WhatsApp shortly.</p>
+    
+    <form id='booking-form' class='bg-orange-50 p-8 rounded-2xl shadow-lg border border-orange-100 flex flex-col gap-6'>
+      <div class='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+        <div>
+          <label class='block text-sm font-semibold text-gray-700 mb-1'>Your Name</label>
+          <input type='text' id='wa-name' required class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none' placeholder='e.g., Sarah'>
+        </div>
+        <div>
+          <label class='block text-sm font-semibold text-gray-700 mb-1'>Location / Area</label>
+          <input type='text' id='wa-location' required class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none' placeholder='Neighborhood or City'>
+        </div>
+      </div>
+      <div class='grid grid-cols-2 sm:grid-cols-4 gap-6'>
+        <div>
+          <label class='block text-sm font-semibold text-gray-700 mb-1'>Adults</label>
+          <input type='number' id='wa-adults' min='1' value='2' class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none'>
+        </div>
+        <div>
+          <label class='block text-sm font-semibold text-gray-700 mb-1'>Kids</label>
+          <input type='number' id='wa-kids' min='0' value='0' class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none'>
+        </div>
+        <div class='col-span-2'>
+          <label class='block text-sm font-semibold text-gray-700 mb-1'>Portions to prepare</label>
+          <input type='number' id='wa-portions' min='1' value='4' class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none' placeholder='Dinner + Leftovers'>
+        </div>
+      </div>
+      <div>
+        <label class='block text-sm font-semibold text-gray-700 mb-1'>Allergies or Restrictions</label>
+        <input type='text' id='wa-allergies' class='w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none' placeholder='e.g., Gluten-free, peanut allergy...'>
+      </div>
+      <div>
+        <label class='block text-sm font-semibold text-gray-700 mb-1'>Selected Menu & Requests</label>
+        <textarea id='wa-menu' readonly rows='3' class='w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 text-gray-600 outline-none resize-none' placeholder='Select dishes above and enter requests'></textarea>
+      </div>
+      <button type='submit' class='w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 rounded-xl shadow-md transition flex items-center justify-center gap-2 mt-4'>
+        <span>📱</span> Send via WhatsApp
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.getElementById('booking-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('wa-name').value;
+    const loc = document.getElementById('wa-location').value;
+    const adults = document.getElementById('wa-adults').value;
+    const children = document.getElementById('wa-kids').value;
+    const portions = document.getElementById('wa-portions').value;
+    const allergies = document.getElementById('wa-allergies').value || 'None';
+    const menu = document.getElementById('wa-menu').value || 'To be defined';
+    
+    const text = `Hi! I would like to book a Hanoi to Home experience.\n\n*Details:*\n👤 Name: ${name}\n📍 Location: ${loc}\n👨‍👩‍👧‍👦 Guests: ${adults} adults, ${children} kids\n🍲 Total portions: ${portions}\n🥢 Menu & Requests: \n${menu}\n\n⚠️ Allergies: ${allergies}\n\nWhat dates do you have available?`;
+    
+    const phone = '34000000000'; // FIXME: Replace with her actual number
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  });
+</script>

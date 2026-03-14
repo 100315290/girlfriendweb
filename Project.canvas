@@ -1,35 +1,196 @@
 {
-  "nodes": [
-    {
-      "id": "planning",
-      "type": "group",
-      "x": 0,
-      "y": 0,
-      "width": 200,
-      "height": 300,
-      "label": "Planning",
-      "color": "#c0c0c0"
-    },
-    {
-      "id": "execution",
-      "type": "group",
-      "x": 300,
-      "y": 0,
-      "width": 200,
-      "height": 300,
-      "label": "Execution",
-      "color": "#c0c0c0"
-    },
-    {
-      "id": "review",
-      "type": "group",
-      "x": 600,
-      "y": 0,
-      "width": 200,
-      "height": 300,
-      "label": "Review",
-      "color": "#c0c0c0"
-    }
-  ],
-  "edges": []
+	"nodes": [
+		{
+			"id": "planning",
+			"type": "group",
+			"x": 0,
+			"y": 0,
+			"width": 320,
+			"height": 1660,
+			"label": "Planning",
+			"color": "#c0c0c0"
+		},
+		{
+			"id": "execution",
+			"type": "group",
+			"x": 300,
+			"y": 0,
+			"width": 200,
+			"height": 300,
+			"label": "Execution",
+			"color": "#c0c0c0"
+		},
+		{
+			"id": "review",
+			"type": "group",
+			"x": 600,
+			"y": 0,
+			"width": 200,
+			"height": 300,
+			"label": "Review",
+			"color": "#c0c0c0"
+		},
+		{
+			"id": "e64972d7",
+			"type": "text",
+			"text": "## PL-01 T-001: Initialize Astro Project\nRun create-astro to initialize the project base",
+			"x": 20,
+			"y": 40,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "805b16a3",
+			"type": "text",
+			"text": "## PL-02 T-002: Configure TailwindCSS\nSet up Tailwind config",
+			"x": 20,
+			"y": 220,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "165b387b",
+			"type": "text",
+			"text": "## PL-03 T-003: Prepare assets\nLogo and PDFs",
+			"x": 20,
+			"y": 400,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "3f443c54",
+			"type": "text",
+			"text": "## PL-04 T-004: Hero and How it works\nUI components",
+			"x": 20,
+			"y": 580,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "80503f33",
+			"type": "text",
+			"text": "## PL-05 T-005: Menu Section\nUI components",
+			"x": 20,
+			"y": 760,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "fe9ac4ea",
+			"type": "text",
+			"text": "## PL-06 T-006: Calendly Embed\nIntegrate widget",
+			"x": 20,
+			"y": 940,
+			"width": 280,
+			"height": 160,
+			"color": "4"
+		},
+		{
+			"id": "eb66f2c7",
+			"type": "text",
+			"text": "## PL-07 T-007: Cloudflare integration\nDeployment config",
+			"x": 20,
+			"y": 1120,
+			"width": 280,
+			"height": 160,
+			"color": "1"
+		},
+		{
+			"id": "2c9891fd",
+			"type": "text",
+			"text": "## PL-08 PL-08: Interactive Menu\nMake dishes clickable",
+			"x": 20,
+			"y": 1300,
+			"width": 280,
+			"height": 160,
+			"color": "5"
+		},
+		{
+			"id": "ce33d031",
+			"type": "text",
+			"text": "## PL-09 PL-09: WhatsApp Form\nCustom booking form to WA",
+			"x": 20,
+			"y": 1480,
+			"width": 280,
+			"height": 160,
+			"color": "5"
+		}
+	],
+	"edges": [
+		{
+			"id": "edge-001",
+			"fromNode": "e64972d7",
+			"fromSide": "bottom",
+			"toNode": "805b16a3",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-002",
+			"fromNode": "e64972d7",
+			"fromSide": "bottom",
+			"toNode": "165b387b",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-003",
+			"fromNode": "805b16a3",
+			"fromSide": "bottom",
+			"toNode": "3f443c54",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-004",
+			"fromNode": "165b387b",
+			"fromSide": "bottom",
+			"toNode": "3f443c54",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-005",
+			"fromNode": "805b16a3",
+			"fromSide": "bottom",
+			"toNode": "80503f33",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-006",
+			"fromNode": "165b387b",
+			"fromSide": "bottom",
+			"toNode": "80503f33",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-007",
+			"fromNode": "e64972d7",
+			"fromSide": "bottom",
+			"toNode": "fe9ac4ea",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-008",
+			"fromNode": "3f443c54",
+			"fromSide": "bottom",
+			"toNode": "eb66f2c7",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-009",
+			"fromNode": "80503f33",
+			"fromSide": "bottom",
+			"toNode": "eb66f2c7",
+			"toSide": "top"
+		},
+		{
+			"id": "edge-010",
+			"fromNode": "fe9ac4ea",
+			"fromSide": "bottom",
+			"toNode": "eb66f2c7",
+			"toSide": "top"
+		}
+	]
 }

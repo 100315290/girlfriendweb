@@ -1,0 +1,77 @@
+﻿---
+const dishes = [
+  { id: 'pho', name: 'Phở Bò', desc: 'Traditional slow-cooked beef rice noodle soup', ingredients: 'Rice noodles, beef broth, beef slices, fresh herbs (cilantro, Thai basil), bean sprouts, lime', icon: '🍜', type: 'Main' },
+  { id: 'buncha', name: 'Bún Chả', desc: 'Grilled pork with cold rice noodles and crispy fresh herbs', ingredients: 'Grilled pork belly/patties, rice noodles, fresh herbs, pickled papaya, sweet & savory fish sauce', icon: '🍖', type: 'Main' },
+  { id: 'goicuon', name: 'Gỏi Cuốn', desc: 'Fresh summer rolls in rice paper with peanut dipping sauce', ingredients: 'Rice paper, pork, shrimp, rice vermicelli, lettuce, mint, peanut sauce', icon: '🥗', type: 'Starter' },
+  { id: 'nemran', name: 'Nem Rán', desc: 'Crispy fried spring rolls', ingredients: 'Minced pork, mushrooms, glass noodles, carrots, wrapped in crispy rice paper', icon: '🍘', type: 'Starter' }
+];
+---
+<section id='menu' class='py-16 bg-orange-50'>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <h2 class='text-3xl font-bold text-center text-orange-900 mb-4'>Mix & Match Your Menu</h2>
+    <p class='text-center text-gray-700 mb-12'>Select your favorite dishes. You can add specific dietary requests (less spicy, no cilantro...) for each dish below.</p>
+    
+    <div class='grid sm:grid-cols-2 lg:grid-cols-4 gap-6' id='dish-grid'>
+      {dishes.map((dish) => (
+        <div class='dish-card flex flex-col bg-white rounded-xl p-6 border-2 border-transparent hover:border-green-500 shadow-md transition' data-dish={dish.name}>
+          <div class='bg-gray-100 rounded-lg h-32 mb-4 flex items-center justify-center text-4xl text-gray-300 overflow-hidden relative'>
+            <span class='absolute z-0'>{dish.icon}</span>
+            <img src={'/images/' + dish.id + '.jpg'} alt={dish.name} class='w-full h-full object-cover relative z-10' onerror="this.style.display='none'" />
+          </div>
+          <div class='text-xs font-bold text-orange-500 uppercase mb-1'>{dish.type}</div>
+          <h4 class='text-xl font-bold text-gray-800 mb-2'>{dish.name}</h4>
+          <p class='text-sm text-gray-600 mb-3'>{dish.desc}</p>
+          <div class='mt-auto pt-4 border-t border-gray-100'>
+             <p class='text-xs text-gray-500 font-semibold mb-1'>Ingredients:</p>
+             <p class='text-xs text-gray-400 italic mb-3'>{dish.ingredients}</p>
+             <div class='request-div hidden'>
+               <input type='text' placeholder='Special requests (e.g., no peanuts)' class='dish-request w-full text-sm px-3 py-2 rounded border border-gray-300 focus:ring-1 focus:ring-green-500 outline-none' onclick='event.stopPropagation()'>
+             </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class='mt-12 text-center'>
+      <a href='/menus/A%20Taste%20of%20Vietnamese%20Homecooking.pdf' target='_blank' class='text-orange-600 hover:text-orange-800 font-semibold underline'>
+        View Full Catalog & Original PDFs
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll('.dish-card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('border-green-500');
+      card.classList.toggle('bg-green-50');
+      card.classList.toggle('selected');
+      
+      const reqDiv = card.querySelector('.request-div');
+      if (reqDiv) reqDiv.classList.toggle('hidden');
+
+      updateFormString();
+    });
+
+    const input = card.querySelector('.dish-request');
+    if(input) {
+      input.addEventListener('input', updateFormString);
+    }
+  });
+
+  function updateFormString() {
+    const selectedCards = Array.from(document.querySelectorAll('.dish-card.selected'));
+    
+    const menuDetails = selectedCards.map(el => {
+      const name = el.getAttribute('data-dish');
+      const reqInput = el.querySelector('.dish-request') as HTMLInputElement;
+      const notes = reqInput && reqInput.value.trim() ? ` (Notes: ${reqInput.value.trim()})` : '';
+      return `- ${name}${notes}`;
+    }).join('\n');
+
+    const menuInput = document.getElementById('wa-menu') as HTMLTextAreaElement;
+    if(menuInput) {
+      menuInput.value = menuDetails;
+    }
+  }
+</script>
