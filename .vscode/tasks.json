@@ -1,0 +1,334 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Canvas: Session Status",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "canvas-coordinator.py",
+        "${input:sessionName}",
+        "status"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Canvas: Ready Tasks",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "canvas-coordinator.py",
+        "${input:sessionName}",
+        "ready"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Canvas: Start Task",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$env:AGENT_NAME='${input:agentName}'; python canvas-coordinator.py '${input:sessionName}' start '${input:taskId}'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Canvas: Finish Task",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$env:AGENT_NAME='${input:agentName}'; python canvas-coordinator.py '${input:sessionName}' finish '${input:taskId}'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Canvas: Normalize Board",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$env:AGENT_NAME='orchestrator'; python canvas-coordinator.py '${input:sessionName}' normalize"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Canvas: Show Task Details",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "canvas-coordinator.py",
+        "${input:sessionName}",
+        "show",
+        "${input:taskId}"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Session: Create New",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$date = Get-Date -Format 'yyyy-MM-dd'; $session = Read-Host -Prompt 'Session name (short slug)'; mkdir -Force \".agents-work/$date`_$session/agent-results\" | Out-Null; Copy-Item \".agents-work/session-template/status.json\" \".agents-work/$date`_$session/status.json\"; Write-Host 'Session created: '$date'_'$session"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Session: List All",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "Get-ChildItem .agents-work/ -Directory | Select-Object -ExpandProperty Name"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Obsidian: Open Canvas",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "if (Test-Path 'Project.canvas') { Write-Host 'Project.canvas exists'; Start-Process -FilePath explorer.exe -ArgumentList '/select,Project.canvas' } else { Write-Host 'Project.canvas not found' }"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent Workflow: Coder - Full Cycle",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID'; $env:AGENT_NAME='coder'; python canvas-coordinator.py \"$session\" start \"$taskId\"; Write-Host 'Task started in ORANGE. Do your work. When ready, run: Finish Task with same IDs'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent Workflow: Reviewer - Full Cycle",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID'; $env:AGENT_NAME='reviewer'; python canvas-coordinator.py \"$session\" start \"$taskId\"; Write-Host 'Task in review (ORANGE). Complete your review. When done, run: Finish Task'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: Start Working",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID (or 'new' to propose)'; if ($taskId -eq 'new') { $title = Read-Host -Prompt 'Task title'; $desc = Read-Host -Prompt 'Task description'; $env:AGENT_NAME='developer'; python canvas-coordinator.py \"$session\" propose Development \"$title\" \"$desc\" } else { $env:AGENT_NAME='developer'; python canvas-coordinator.py \"$session\" start \"$taskId\"; Write-Host '🟠 Task is now ORANGE - you are working on it' }"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: Finish Working",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID'; $env:AGENT_NAME='developer'; python canvas-coordinator.py \"$session\" finish \"$taskId\"; Write-Host '🔵 Task is now CYAN - marked for your review. Drag to GREEN when approved'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: Pause Agent Task",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID to pause'; $env:AGENT_NAME='developer'; python canvas-coordinator.py \"$session\" pause \"$taskId\"; Write-Host '⏸️  Task paused: ORANGE → RED'"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: Edit Task Guidance",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; $taskId = Read-Host -Prompt 'Task ID'; Write-Host 'Enter new task description (or guidance for the agent):' -ForegroundColor Yellow; $text = Read-Host; $env:AGENT_NAME='developer'; python canvas-coordinator.py \"$session\" edit \"$taskId\" \"$text\""
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: View Progress",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; Write-Host '📊 Full Status:' -ForegroundColor Cyan; python canvas-coordinator.py \"$session\" status; Write-Host ''; Write-Host '📋 Agent Work:' -ForegroundColor Cyan; python canvas-coordinator.py \"$session\" list agents 2>/dev/null || Write-Host 'No agent-specific list'",
+        ";"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: See What's Blocked",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; python canvas-coordinator.py \"$session\" blocked"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Developer: See What's Ready",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "$session = Read-Host -Prompt 'Session'; python canvas-coordinator.py \"$session\" ready"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "sessionName",
+      "type": "promptString",
+      "description": "Session name (e.g., 2026-03-14_feature-auth)",
+      "default": "2026-03-14_myproject"
+    },
+    {
+      "id": "taskId",
+      "type": "promptString",
+      "description": "Task ID (e.g., T-001, DV-03)",
+      "default": "T-001"
+    },
+    {
+      "id": "agentName",
+      "type": "pickString",
+      "description": "Select your agent role",
+      "options": [
+        "orchestrator",
+        "architect",
+        "coder",
+        "reviewer",
+        "qa",
+        "security",
+        "integrator",
+        "designer",
+        "planner",
+        "spec-agent",
+        "researcher",
+        "docs"
+      ],
+      "default": "coder"
+    }
+  ]
+}

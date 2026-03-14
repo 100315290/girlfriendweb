@@ -1,0 +1,35 @@
+{
+  "nodes": [
+    {
+      "id": "planning",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 300,
+      "label": "Planning",
+      "color": "#c0c0c0"
+    },
+    {
+      "id": "execution",
+      "type": "group",
+      "x": 300,
+      "y": 0,
+      "width": 200,
+      "height": 300,
+      "label": "Execution",
+      "color": "#c0c0c0"
+    },
+    {
+      "id": "review",
+      "type": "group",
+      "x": 600,
+      "y": 0,
+      "width": 200,
+      "height": 300,
+      "label": "Review",
+      "color": "#c0c0c0"
+    }
+  ],
+  "edges": []
+}
